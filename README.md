@@ -77,7 +77,7 @@ const dogId = 2;
 const fluffy = dog.find(dog => dog.dogId == dogId);
 ```
 
-Start the server by running `npm start`. You should be able to see the
+Start the server by running `node server.js`. You should be able to see the
 Home page by navigating to [http://localhost:5000] on the browser or making a
 `GET` request on Postman with that URL path.
 
