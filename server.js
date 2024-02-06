@@ -156,6 +156,20 @@ const server = http.createServer((req, res) => {
         const dogId = urlParts[2]
         const dog = dogs.find((dog) => dog.dogId === Number(dogId))
         // Your code here
+
+        const dogDetailTemplate = fs.readFileSync(
+          './views/edit-dog.html',
+          'utf-8'
+        )
+
+        const dogDetailHtml = dogDetailTemplate
+          .replace(/#{name}/g, dog.name)
+          .replace(/#{age}/g, dog.age)
+          .replace(/#{age}/g, dog.dogId)
+
+        res.statusCode = 200
+        res.setHeader('Content-Type', 'text/html')
+        return res.end(dogDetailHtml)
       }
     }
 
