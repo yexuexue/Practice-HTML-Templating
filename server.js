@@ -175,11 +175,25 @@ const server = http.createServer((req, res) => {
 
     // Phase 6: POST /dogs/:dogId
     if (req.method === 'POST' && req.url.startsWith('/dogs/')) {
+      console.log(req.url)
+      //Unable to obtain a right URL has a dogId in the end like 'POST /dogs/1' if submitting the form from borwser,
+      // console.log(req.url) gives me a result which placeholder is missed like 'POST /dogs/'
+      //but using Postman, everything goes fine,console.log(req.url) shows 'POST /dogs/1'
       const urlParts = req.url.split('/')
       if (urlParts.length === 3) {
         const dogId = urlParts[2]
         const dog = dogs.find((dog) => dog.dogId === Number(dogId))
         // Your code here
+
+        const { name, age } = req.body
+        dog.name = name
+        dog.age = age
+
+        const redirectUrl = `/dogs/${dog.dogId}`
+
+        res.statusCode = 302
+        res.setHeader('Location', redirectUrl)
+        return res.end()
       }
     }
 
