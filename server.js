@@ -92,7 +92,7 @@ const server = http.createServer((req, res) => {
 
       const dogsListHtml = dogs.map((dog) => `<li>${dog.name}</li>`).join('')
 
-      const htmlDogs = htmlDogsTemplate.replace(/ #{dogsList}/g, dogsListHtml)
+      const htmlDogs = htmlDogsTemplate.replace(/#{dogsList}/g, dogsListHtml)
 
       res.statusCode = 200
       res.setHeader('Content-Type', 'text/html')
@@ -102,11 +102,11 @@ const server = http.createServer((req, res) => {
     // Phase 2: GET /dogs/new
     if (req.method === 'GET' && req.url === '/dogs/new') {
       // Your code here
-      const htemNewDog = fs.readFileSync('./views/create-dog.html', 'utf-8')
+      const htmlNewDog = fs.readFileSync('./views/create-dog.html', 'utf-8')
 
       res.statusCode = 200
       res.setHeader('Content-Type', 'text/html')
-      return res.end(htemNewDog)
+      return res.end(htmlNewDog)
     }
 
     // Phase 3: GET /dogs/:dogId
@@ -116,6 +116,18 @@ const server = http.createServer((req, res) => {
         const dogId = urlParts[2]
         const dog = dogs.find((dog) => dog.dogId === Number(dogId))
         // Your code here
+
+        const dogDetailTemplate = fs.readFileSync(
+          './views/dog-details.html',
+          'utf-8'
+        )
+        const dogDetailHtml = dogDetailTemplate
+          .replace(/#{name}/g, dog.name)
+          .replace(/#{age}/g, dog.age)
+
+        res.statusCode = 200
+        res.setHeader('Content-Type', 'text/html')
+        return res.end(dogDetailHtml)
       }
     }
 
